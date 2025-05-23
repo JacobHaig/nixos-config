@@ -2,6 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
+# sudo nix-collect-garbage --delete-older-than 15d
+
+
 { config, pkgs, ... }:
 let
   unstable = import
@@ -10,10 +13,13 @@ let
     { config = config.nixpkgs.config; };
 in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
+  nix.settings.experimental-features = [
+    "nix-command" "flakes"
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -84,6 +90,7 @@ in
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -165,8 +172,6 @@ in
       presenterm # Terminal based slideshow tool
       kondo # Save disk space by cleaning unneeded files from software projects
 
-
-
       # Langauges
       python314
       unstable.zig # General-purpose programming language and toolchain
@@ -189,8 +194,6 @@ in
     ];
   };
 
-
-
   # Configure Steam
   programs.steam = {
     enable = true;
@@ -198,8 +201,6 @@ in
     dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = false; # Open ports in the firewall for Steam Local Network Game Transfers
   };
-
-
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
@@ -234,7 +235,9 @@ in
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 3389 ];
+  networking.firewall.allowedTCPPorts = [ 
+    # 3389 
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
