@@ -85,6 +85,11 @@ in
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing Dynamic libraries for unpackaged programs here, NOT in environment.systemPackages
+  ];
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.wis = {
     isNormalUser = true;
@@ -128,8 +133,8 @@ in
       gnumake
       unixtools.xxd # File HEX viewer
 
-      # Tools writen in rust
-      uutils-coreutils-noprefix # Replacement for all core utils
+      # Tools writen in Rust
+      uutils-coreutils-noprefix # Replacement for all core utils in Rust
       fish # Smart and user-friendly command line shell
       nushell # Modern shell
       ripgrep # Utility that combines the usability of The Silver Searcher with the raw speed of grep
@@ -177,11 +182,10 @@ in
       # nim
       # nimble
 
-      # Libraries
+      # Libraries and tools
       templ # Language for writing HTML user interfaces in Go
       air # Live reload for Go apps
       hugo # Fast and modern static website engine
-
     ];
   };
 
