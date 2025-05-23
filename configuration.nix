@@ -5,13 +5,7 @@
 # sudo nix-collect-garbage --delete-older-than 15d
 
 
-{ config, pkgs, ... }:
-let
-  unstable = import
-    ( builtins.fetchTarball https://github.com/nixos/nixpkgs/tarball/d66115b18ccf2fbb03da4f2ea8a41499eb8d3136 )
-    # reuse the current configuration
-    { config = config.nixpkgs.config; };
-in
+{ config, pkgs, inputs, ... }:
 {
   imports = [ # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -111,7 +105,7 @@ in
       protonvpn-gui
       protonmail-desktop
       proton-pass
-      unstable.rustdesk-flutter
+      # unstable.rustdesk-flutter
 
       # Play
       discord
@@ -135,7 +129,7 @@ in
       # Tools
       git
       docker
-      unstable.github-desktop
+      # unstable.github-desktop
       uv # Python Package manager
       gnumake
       unixtools.xxd # File HEX viewer
@@ -174,9 +168,9 @@ in
 
       # Langauges
       python314
-      unstable.zig # General-purpose programming language and toolchain
+      # unstable.zig # General-purpose programming language and toolchain
       rustup # Rust toolchain installer
-      unstable.go # Go Programming language
+      # unstable.go # Go Programming language
       gcc # Gnu Compiler Collection
 
       # Javascript
@@ -220,7 +214,7 @@ in
     curl
 
   ];
-  
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -235,8 +229,8 @@ in
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 
-    # 3389 
+  networking.firewall.allowedTCPPorts = [
+    # 3389
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
