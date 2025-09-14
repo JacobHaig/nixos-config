@@ -49,12 +49,23 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.services.xserver.desktopManager.cinnamon.enable
+  # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  # Gnome Display Manager
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+  # services.gnome.core-apps.enable = true;
+  # services.gnome.core-developer-tools.enable = true;
+
+  # Cinnamon Desktop Manager
   # services.xserver.desktopManager.cinnamon.enable = true;
+  
+  
+  # Cosmic Desktop Manager
   # services.desktopManager.cosmic.enable = true; # Unstable will wait for 25.05
 
   # Configure keymap in X11
@@ -67,7 +78,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -99,7 +110,16 @@
     packages = with pkgs; [
       thunderbird
       brave
-      zsh
+
+      logseq
+      obsidian
+
+      # gnome-tweaks
+
+      # Hacking
+      # ophcrack
+      # john
+      # johnny
 
       # Work
       protonvpn-gui
@@ -112,7 +132,7 @@
       spotify
       qbittorrent
       vlc
-      neofetch
+      fastfetch
 
       # Creatives
       krita
@@ -121,7 +141,7 @@
 
       # Programming
       ## Editors
-      kdePackages.kate
+      # kdePackages.kate
       zed-editor # High-performance, multiplayer code editor
       vscode
       neovim
@@ -177,10 +197,6 @@
       nodejs
       bun
 
-      # Nim Lang
-      # nim
-      # nimble
-
       # Libraries and tools
       templ # Language for writing HTML user interfaces in Go
       air # Live reload for Go apps
@@ -188,20 +204,28 @@
     ];
   };
 
+
+
+
   # Configure Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = false; # Open ports in the firewall for Steam Local Network Game Transfers
+  programs = {
+    zsh.enable = true;
+    gnome-terminal.enable = true;
+    firefox.enable = true;
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
+      dedicatedServer.openFirewall = false; # Open ports in the firewall for Source Dedicated Server
+      localNetworkGameTransfers.openFirewall = false; # Open ports in the firewall for Steam Local Network Game Transfers
+    };
   };
 
-  # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "wis";
 
-  # Install firefox.
-  programs.firefox.enable = true;
+  # Enable automatic login for the user.
+  services.displayManager.autoLogin = { 
+    enable = true;
+    user = "wis";
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
